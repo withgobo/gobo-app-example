@@ -48,12 +48,13 @@ router.get("/", nocache(), async (req, res, next) => {
             headers: { "Content-Type": "application/x-www-form-urlencoded" },
           },
         )
-        // Set the install_success param if successful.
+        // Set the install_success param and update the session if successful.
         .then((response) => {
           redirectURL.search = new URLSearchParams({
             install_success: "true",
           });
-          console.log(response.data);
+          req.session.token = response.data;
+          // console.log(response.data);
         })
         // Otherwise create an error message.
         .catch((error) => {
